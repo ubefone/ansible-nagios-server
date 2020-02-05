@@ -2,7 +2,12 @@
 
 {% for service in nagios_server_services %}
 define service {
+	{% if service.hostgroup is defined -%}
 	hostgroup_name                  {{ service.hostgroup }}
+	{% endif -%}
+	{% if service.host_name is defined -%}
+	host_name                       {{ service.host_name }}
+	{% endif -%}
 	service_description             {{ service.description }}
 	check_command                   {{ service.check_command }}
 	use                             {{ service.use | default('generic-service') }}
